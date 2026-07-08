@@ -1,0 +1,12 @@
+# Core — pinned to the exact versions the results in report.pdf were produced with,
+# for reproducibility. Install with: pip install -r requirements.txt
+torch==2.8.0
+numpy==2.0.2
+matplotlib==3.9.4
+scikit-learn==1.6.1   # cross-check for PCA / linear probing against the closed-form NumPy implementation
+tqdm==4.68.4           # training progress bars
+
+# Dev tooling (testing, formatting, linting) — not required to run the experiment
+pytest==8.4.2
+black==25.11.0
+ruff==0.15.20
