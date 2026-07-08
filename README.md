@@ -47,19 +47,13 @@ I predicted the answer would land near the 4D lower bound — a **partially shar
 
 ---
 
-## Results
-
-1. **Model learned real structure** — loss converged to ≈0.74, well below the uniform baseline `log(3) ≈ 1.099`.
-2. **Residual stream compresses** — effective dimensionality drops from ~12D (raw embedding) to ~3D after layer 1, settling at **~4D** after layer 2 — matching the predicted lower bound.
-3. **Belief state is almost perfectly linear** — R² > 0.989 across all context positions when probing for the ground-truth Bayesian belief.
-4. **Process identity is only partially linear** — ~60% linear decoding accuracy by late context (vs. 33% chance) — well above chance, far from ceiling.
-5. **Geometry builds up with context** — early positions are organized only by the last token seen; by late context, activations form a smooth, low-dimensional structure where nearby points correspond to nearby belief states.
-
----
-
 ## Interpretation
 
-The core finding is an asymmetry: **belief state is almost perfectly linearly represented; process identity is not.** The transformer prioritizes the local predictive state it needs for next-token prediction over clean global source disambiguation — confirming the "partially shared" hypothesis over full factorization. In larger LLMs, an analogous effect could explain prompt-sensitivity: a model can track local context well without ever fully committing to a single task/domain/instruction regime. This mirrors a problem I've worked on in computational neuroscience — using GLM-HMMs to infer latent behavioral regimes in animals from observations alone — and part of what makes this setup interesting to me is that it's a minimal, tractable transformer analogue of the same nested-inference problem.
+Training converged to a loss of ≈0.74, well below the uniform baseline `log(3) ≈ 1.099`, confirming the model learned real sequential structure rather than just token frequencies. The residual stream compresses accordingly — effective dimensionality drops from ~12D (raw embedding) to ~3D after layer 1, settling at **~4D** after layer 2, matching the predicted lower bound. Early context positions are organized only by the last token seen; by late context, activations form a smooth, low-dimensional structure where nearby points correspond to nearby belief states.
+
+The core finding is an asymmetry: **belief state is almost perfectly linearly represented** (R² > 0.989 across all context positions), **while process identity is only partially linear** (~60% decoding accuracy by late context, vs. 33% chance). The transformer prioritizes the local predictive state it needs for next-token prediction over clean global source disambiguation — confirming the "partially shared" hypothesis over full factorization. In larger LLMs, an analogous effect could explain prompt-sensitivity: a model can track local context well without ever fully committing to a single task/domain/instruction regime. This mirrors a problem I've worked on in computational neuroscience — using GLM-HMMs to infer latent behavioral regimes in animals from observations alone — and part of what makes this setup interesting to me is that it's a minimal, tractable transformer analogue of the same nested-inference problem.
+
+Full write-up, figures, and mathematical derivation: see [`report.pdf`](report.pdf).
 
 ---
 
@@ -70,7 +64,6 @@ The core finding is an asymmetry: **belief state is almost perfectly linearly re
 ├── mess3_transformer.py   # data generation, PyTorch transformer, training, analysis
 ├── report.pdf              # full writeup with figures and interpretation
 ├── requirements.txt
-├── results/                # saved figures
 └── README.md
 ```
 
@@ -81,7 +74,7 @@ pip install -r requirements.txt
 python mess3_transformer.py
 ```
 
-Generates the non-ergodic dataset, trains the transformer, and saves all analysis figures to `results/`.
+Runs the full experiment end-to-end: generates the non-ergodic dataset, trains the transformer, and reproduces the residual-stream analysis described in `report.pdf`.
 
 ---
 
@@ -99,3 +92,4 @@ PyTorch model implementation · transformer architecture from scratch (causal se
 
 - Shai et al., ["Transformers Represent Belief State Geometry in their Residual Stream"](https://arxiv.org/abs/2405.15943) — motivates the belief-state decoding analysis.
 - Shai et al., ["Transformers Learn Factored Representations"](https://arxiv.org/abs/2602.02385) — the paper this project is based on and extends.
+
