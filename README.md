@@ -97,5 +97,5 @@ PyTorch model implementation · transformer architecture from scratch (causal se
 
 ## References
 
-- Shai et al., ["Transformers Learn Factored Representations"](https://arxiv.org/abs/2602.02385) — the paper this project is based on and extends.
 - Shai et al., ["Transformers Represent Belief State Geometry in their Residual Stream"](https://arxiv.org/abs/2405.15943) — motivates the belief-state decoding analysis.
+- Shai et al., ["Transformers Learn Factored Representations"](https://arxiv.org/abs/2602.02385) — the paper this project is based on and extends.
